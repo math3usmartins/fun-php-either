@@ -1,0 +1,4 @@
+/docker-compose.override.yml
+/.php_cs.cache
+/vendor
+/.docker/composer

@@ -1,0 +1,16 @@
+name: fun-php-either
+services:
+  php:
+    build:
+      context: ./
+      args:
+        WWW_DATA_UID: 1000
+        WWW_DATA_GID: 1000
+    working_dir: /var/www/app
+    user: www-data
+    command: "php"
+    environment:
+      COMPOSER_HOME: "/var/www/.composer"
+    volumes:
+      - ./:/var/www/app
+      - .docker/composer:/var/www/.composer
