@@ -66,4 +66,29 @@ final class RightTest extends TestCase
             $actual->value()
         );
     }
+
+    public function testUnexpectedResult()
+    {
+        $givenInput = 'this is the input value';
+        $either = Right::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $unexpectedResult = 'this is just a string that should be wrapped using Right::fromValue()';
+
+        $actual = $either->map(function () use ($unexpectedResult) {
+            return $unexpectedResult;
+        });
+
+        $actualValue = $actual->value();
+        static::assertInstanceOf(UnexpectedResult::class, $actualValue);
+
+        /* @var UnexpectedResult $actualValue */
+        static::assertEquals(
+            'Right::map() must return an instance of Either<T>',
+            $actualValue->getMessage()
+        );
+
+        static::assertEquals($unexpectedResult, $actualValue->getUnexpectedResult());
+    }
 }

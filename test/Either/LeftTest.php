@@ -70,4 +70,29 @@ final class LeftTest extends TestCase
             $actual->value()
         );
     }
+
+    public function testUnexpectedResult()
+    {
+        $givenInput = 'something went wrong';
+        $either = Left::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $unexpectedResult = 'this is just a string that should be wrapped using Left::fromValue()';
+
+        $actual = $either->mapLeft(function () use ($unexpectedResult) {
+            return $unexpectedResult;
+        });
+
+        $actualValue = $actual->value();
+        static::assertInstanceOf(UnexpectedResult::class, $actualValue);
+
+        /* @var UnexpectedResult $actualValue */
+        static::assertEquals(
+            'Left::mapLeft() must return an instance of Either<T>',
+            $actualValue->getMessage()
+        );
+
+        static::assertEquals($unexpectedResult, $actualValue->getUnexpectedResult());
+    }
 }
