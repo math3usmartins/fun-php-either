@@ -8,4 +8,7 @@ RUN apt update \
     && add-apt-repository ppa:ondrej/php \
     && apt update \
     && apt install -y \
-        php5.6
+        php5.6 \
+        php5.6-dom \
+        php5.6-mbstring \
+        zip

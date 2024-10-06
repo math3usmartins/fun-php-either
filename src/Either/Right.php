@@ -12,6 +12,7 @@ class Right extends Either
 {
     /**
      * @template V
+     *
      * @param V $value
      */
     public static function fromValue($value)
