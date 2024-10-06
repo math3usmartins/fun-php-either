@@ -1,38 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Functional\Either;
 
 final class UnexpectedResult
 {
-    /**
-     * @var string
-     */
-    private $message;
+    private string $message;
 
-    /**
-     * @var mixed
-     */
     private $unexpectedResult;
 
     public function __construct(
-        $message,
+        string $message,
         $unexpectedResult
     ) {
         $this->message = $message;
         $this->unexpectedResult = $unexpectedResult;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUnexpectedResult()
     {
         return $this->unexpectedResult;

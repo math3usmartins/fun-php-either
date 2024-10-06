@@ -4,18 +4,7 @@
          verbose="true"
          failOnRisky="true"
          failOnWarning="true"
-         forceCoversAnnotation="true"
-         checkForUnintentionallyCoveredCode="true"
-         beStrictAboutCoversAnnotation="false"
-         bootstrap="vendor/autoload.php"
-         beStrictAboutTestsThatDoNotTestAnything="true">
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true"
-                   addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
+         bootstrap="vendor/autoload.php">
 
     <testsuites>
         <testsuite name="app">

@@ -2,3 +2,5 @@
 /.php_cs.cache
 /vendor
 /.docker/composer
+/.php-cs-fixer.cache
+/.phpunit.result.cache

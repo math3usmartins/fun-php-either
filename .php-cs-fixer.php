@@ -11,8 +11,8 @@ $rules = [
     '@PhpCsFixer' => true,
     '@PhpCsFixer:risky' => true,
     '@Symfony' => true,
-    '@PHP56Migration' => true,
-    '@PHP56Migration:risky' => true,
+    '@PHP74Migration' => true,
+    '@PHP74Migration:risky' => true,
 
     'date_time_immutable' => true,
     'protected_to_private' => true,
