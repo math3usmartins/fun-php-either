@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Functional\Either;
 
-final class UnexpectedResult
+/**
+ * @template T
+ */
+final readonly class UnexpectedResult
 {
-    private string $message;
-
-    private $unexpectedResult;
-
+    /**
+     * @param T $unexpectedResult
+     */
     public function __construct(
-        string $message,
-        $unexpectedResult
+        private string $message,
+        private mixed $unexpectedResult
     ) {
-        $this->message = $message;
-        $this->unexpectedResult = $unexpectedResult;
     }
 
     public function getMessage(): string
@@ -23,7 +23,7 @@ final class UnexpectedResult
         return $this->message;
     }
 
-    public function getUnexpectedResult()
+    public function getUnexpectedResult(): mixed
     {
         return $this->unexpectedResult;
     }

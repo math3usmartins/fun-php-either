@@ -10,16 +10,10 @@ namespace Functional;
 abstract class Either
 {
     /**
-     * @var T
-     */
-    protected $value;
-
-    /**
      * @param T $value
      */
-    protected function __construct($value)
+    protected function __construct(protected $value)
     {
-        $this->value = $value;
     }
 
     /**
