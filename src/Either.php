@@ -10,12 +10,12 @@ abstract class Either
     /**
      * @var T
      */
-    private $value;
+    protected $value;
 
     /**
      * @param T $value
      */
-    public function __construct($value)
+    protected function __construct($value)
     {
         $this->value = $value;
     }
@@ -27,6 +27,11 @@ abstract class Either
     {
         return $this->value;
     }
+
+    /**
+     * @return Either<T>
+     */
+    abstract public function flatMap(callable $f);
 
     /**
      * @return Either
