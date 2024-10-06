@@ -27,4 +27,47 @@ final class LeftTest extends TestCase
 
         static::assertEquals($givenInput, $actual->value());
     }
+
+    public function testMapLeft()
+    {
+        $givenInput = 'something went wrong';
+        $either = Left::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $expectedOutput = 'something else that should be returned as the final value';
+
+        $actual = $either->mapLeft(function () use ($expectedOutput) {
+            return Left::fromValue($expectedOutput);
+        });
+
+        static::assertInstanceOf(Left::class, $actual);
+        static::assertEquals(
+            $expectedOutput,
+            $actual->value()
+        );
+    }
+
+    public function testMapLeftAndRight()
+    {
+        $givenInput = 'something went wrong';
+        $either = Left::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $expectedOutput = 'something else that should be returned as the final value';
+
+        $actual = $either
+            ->mapLeft(function () use ($expectedOutput) {
+                return Left::fromValue($expectedOutput);
+            })->map(function () {
+                return 'something else which should NOT be returned as value';
+            });
+
+        static::assertInstanceOf(Left::class, $actual);
+        static::assertEquals(
+            $expectedOutput,
+            $actual->value()
+        );
+    }
 }
