@@ -28,5 +28,13 @@ abstract class Either
         return $this->value;
     }
 
+    /**
+     * @return Either
+     */
     abstract public function map(callable $f);
+
+    /**
+     * @return Either
+     */
+    abstract public function mapLeft(callable $f);
 }

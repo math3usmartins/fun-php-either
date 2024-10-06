@@ -20,8 +20,30 @@ class Right extends Either
         return new static($value);
     }
 
+    /**
+     * @return Either
+     */
     public function map(callable $f)
     {
-        return $f($this);
+        $result = $f($this);
+
+        if ($result instanceof Either) {
+            return $result;
+        }
+
+        return Left::fromValue(
+            new UnexpectedResult(
+                'Right::map() must return an instance of Either<T>',
+                $result
+            )
+        );
+    }
+
+    /**
+     * @return Either
+     */
+    public function mapLeft(callable $f)
+    {
+        return $this;
     }
 }

@@ -19,9 +19,51 @@ final class RightTest extends TestCase
         $expectedOutput = 'value returned from closure';
 
         $actual = $either->map(function () use ($expectedOutput) {
-            return $expectedOutput;
+            return Right::fromValue($expectedOutput);
         });
 
-        static::assertEquals($expectedOutput, $actual);
+        static::assertInstanceOf(Right::class, $actual);
+        static::assertEquals($expectedOutput, $actual->value());
+    }
+
+    public function testMapLeft()
+    {
+        $givenInput = 'this is the input value';
+        $either = Right::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $actual = $either->mapLeft(function () {
+            return 'something else which should NOT be returned as value';
+        });
+
+        static::assertInstanceOf(Right::class, $actual);
+        static::assertEquals(
+            $givenInput,
+            $actual->value()
+        );
+    }
+
+    public function testMapLeftAndRight()
+    {
+        $givenInput = 'this is the input value';
+        $either = Right::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $expectedOutput = 'something else that should be the final result';
+
+        $actual = $either
+            ->mapLeft(function () {
+                return 'something else which should NOT be returned as value';
+            })->map(function () use ($expectedOutput) {
+                return Right::fromValue($expectedOutput);
+            });
+
+        static::assertInstanceOf(Right::class, $actual);
+        static::assertEquals(
+            $expectedOutput,
+            $actual->value()
+        );
     }
 }
