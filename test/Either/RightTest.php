@@ -83,12 +83,30 @@ final class RightTest extends TestCase
         $actualValue = $actual->value();
         static::assertInstanceOf(UnexpectedResult::class, $actualValue);
 
-        /* @var UnexpectedResult $actualValue */
+        /** @var UnexpectedResult $actualValue */
         static::assertEquals(
             'Right::map() must return an instance of Either<T>',
             $actualValue->getMessage()
         );
 
         static::assertEquals($unexpectedResult, $actualValue->getUnexpectedResult());
+    }
+
+    public function testGetOrElse()
+    {
+        $givenInput = 'this is the input value';
+        $either = Right::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $expectedOutput = 'value returned from closure';
+
+        $actual = $either->map(function () use ($expectedOutput) {
+            return Right::fromValue($expectedOutput);
+        })->getOrElse(function () {
+            return 'this should NOT be returned';
+        });
+
+        static::assertEquals($expectedOutput, $actual);
     }
 }

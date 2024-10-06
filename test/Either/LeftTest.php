@@ -87,12 +87,28 @@ final class LeftTest extends TestCase
         $actualValue = $actual->value();
         static::assertInstanceOf(UnexpectedResult::class, $actualValue);
 
-        /* @var UnexpectedResult $actualValue */
+        /** @var UnexpectedResult $actualValue */
         static::assertEquals(
             'Left::mapLeft() must return an instance of Either<T>',
             $actualValue->getMessage()
         );
 
         static::assertEquals($unexpectedResult, $actualValue->getUnexpectedResult());
+    }
+
+    public function testGetOrElse()
+    {
+        $givenInput = 'something went wrong';
+        $either = Left::fromValue($givenInput);
+
+        static::assertEquals($givenInput, $either->value());
+
+        $expectedOutput = 'something else that should be returned as the final value';
+
+        $actual = $either->getOrElse(function () use ($expectedOutput) {
+            return $expectedOutput;
+        });
+
+        static::assertEquals($expectedOutput, $actual);
     }
 }
