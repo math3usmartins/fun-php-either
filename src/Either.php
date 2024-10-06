@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Functional;
 
 /**
@@ -31,17 +33,11 @@ abstract class Either
     /**
      * @return Either<T>
      */
-    abstract public function flatMap(callable $f);
+    abstract public function flatMap(callable $f): self;
 
-    /**
-     * @return Either
-     */
-    abstract public function map(callable $f);
+    abstract public function map(callable $f): self;
 
-    /**
-     * @return Either
-     */
-    abstract public function mapLeft(callable $f);
+    abstract public function mapLeft(callable $f): self;
 
     /**
      * @template A

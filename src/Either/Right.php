@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Functional\Either;
 
 use Functional\Either;
 
 /**
  * @template T
+ *
  * @extends Either<T>
  */
 class Right extends Either
@@ -15,15 +18,12 @@ class Right extends Either
      *
      * @param V $value
      */
-    public static function fromValue($value)
+    public static function fromValue($value): self
     {
         return new static($value);
     }
 
-    /**
-     * @return Either
-     */
-    public function map(callable $f)
+    public function map(callable $f): Either
     {
         $result = $f($this);
 
@@ -39,10 +39,7 @@ class Right extends Either
         );
     }
 
-    /**
-     * @return Either
-     */
-    public function mapLeft(callable $f)
+    public function mapLeft(callable $f): Either
     {
         return $this;
     }
@@ -60,7 +57,7 @@ class Right extends Either
     /**
      * @return Either<T>
      */
-    public function flatMap(callable $f)
+    public function flatMap(callable $f): Either
     {
         $value = $this->value;
 

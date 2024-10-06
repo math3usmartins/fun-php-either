@@ -11,10 +11,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: math3usmartins/fun-php-either:php5
+      image: php:7-cli-alpine
       env:
         DEBIAN_FRONTEND: noninteractive
     steps:
+      - name: composer
+        run: |
+          curl -s https://getcomposer.org/installer | php
+          mv composer.phar /usr/bin/composer
       - name: checkout
         uses: actions/checkout@v3
       - name: install composer packages
@@ -33,7 +37,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     container:
-      image: math3usmartins/php-minibus-builder:php5
+      image: php:7-cli-alpine
       env:
         DEBIAN_FRONTEND: noninteractive
     steps:
@@ -48,7 +52,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     container:
-      image: math3usmartins/php-minibus-builder:php5
+      image: php:7-cli-alpine
       env:
         DEBIAN_FRONTEND: noninteractive
     steps:

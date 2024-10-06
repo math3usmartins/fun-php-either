@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Functional\Either;
 
 use PHPUnit\Framework\TestCase;
@@ -9,108 +11,97 @@ use PHPUnit\Framework\TestCase;
  */
 final class RightTest extends TestCase
 {
-    public function testMap()
+    public function testMap(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue($givenInput);
 
-        static::assertEquals($givenInput, $either->value());
+        self::assertEquals($givenInput, $either->value());
 
         $expectedOutput = 'value returned from closure';
 
-        $actual = $either->map(function () use ($expectedOutput) {
-            return Right::fromValue($expectedOutput);
-        });
+        $actual = $either->map(static fn (): Right => Right::fromValue($expectedOutput));
 
-        static::assertInstanceOf(Right::class, $actual);
-        static::assertEquals($expectedOutput, $actual->value());
+        self::assertInstanceOf(Right::class, $actual);
+        self::assertEquals($expectedOutput, $actual->value());
     }
 
-    public function testMapLeft()
+    public function testMapLeft(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue($givenInput);
 
-        static::assertEquals($givenInput, $either->value());
+        self::assertEquals($givenInput, $either->value());
 
-        $actual = $either->mapLeft(function () {
-            return 'something else which should NOT be returned as value';
-        });
+        $actual = $either->mapLeft(static fn (): string => 'something else which should NOT be returned as value');
 
-        static::assertInstanceOf(Right::class, $actual);
-        static::assertEquals(
+        self::assertInstanceOf(Right::class, $actual);
+        self::assertEquals(
             $givenInput,
             $actual->value()
         );
     }
 
-    public function testMapLeftAndRight()
+    public function testMapLeftAndRight(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue($givenInput);
 
-        static::assertEquals($givenInput, $either->value());
+        self::assertEquals($givenInput, $either->value());
 
         $expectedOutput = 'something else that should be the final result';
 
         $actual = $either
-            ->mapLeft(function () {
-                return 'something else which should NOT be returned as value';
-            })->map(function () use ($expectedOutput) {
-                return Right::fromValue($expectedOutput);
-            });
+            ->mapLeft(static fn (): string => 'something else which should NOT be returned as value')
+            ->map(static fn (): Right => Right::fromValue($expectedOutput));
 
-        static::assertInstanceOf(Right::class, $actual);
-        static::assertEquals(
+        self::assertInstanceOf(Right::class, $actual);
+        self::assertEquals(
             $expectedOutput,
             $actual->value()
         );
     }
 
-    public function testUnexpectedResult()
+    public function testUnexpectedResult(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue($givenInput);
 
-        static::assertEquals($givenInput, $either->value());
+        self::assertEquals($givenInput, $either->value());
 
         $unexpectedResult = 'this is just a string that should be wrapped using Right::fromValue()';
 
-        $actual = $either->map(function () use ($unexpectedResult) {
-            return $unexpectedResult;
-        });
+        $actual = $either->map(static fn (): string => $unexpectedResult);
 
         $actualValue = $actual->value();
-        static::assertInstanceOf(UnexpectedResult::class, $actualValue);
+        self::assertInstanceOf(UnexpectedResult::class, $actualValue);
 
-        /** @var UnexpectedResult $actualValue */
-        static::assertEquals(
+        /* @var UnexpectedResult $actualValue */
+        self::assertEquals(
             'Right::map() must return an instance of Either<T>',
             $actualValue->getMessage()
         );
 
-        static::assertEquals($unexpectedResult, $actualValue->getUnexpectedResult());
+        self::assertEquals($unexpectedResult, $actualValue->getUnexpectedResult());
     }
 
-    public function testGetOrElse()
+    public function testGetOrElse(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue($givenInput);
 
-        static::assertEquals($givenInput, $either->value());
+        self::assertEquals($givenInput, $either->value());
 
         $expectedOutput = 'value returned from closure';
 
-        $actual = $either->map(function () use ($expectedOutput) {
-            return Right::fromValue($expectedOutput);
-        })->getOrElse(function () {
-            return 'this should NOT be returned';
-        });
+        $actual = $either
+            ->map(static fn (): Right => Right::fromValue($expectedOutput))
+            ->getOrElse(static fn (): string => 'this should NOT be returned');
 
-        static::assertEquals($expectedOutput, $actual);
+        self::assertEquals($expectedOutput, $actual);
     }
 
-    public function testFlatMap()
+    public function testFlatMap(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue(
@@ -119,17 +110,15 @@ final class RightTest extends TestCase
 
         $expectedOutput = 'value returned from closure';
 
-        $actual = $either->flatMap(function () use ($expectedOutput) {
-            return Right::fromValue($expectedOutput);
-        });
+        $actual = $either->flatMap(static fn (): Right => Right::fromValue($expectedOutput));
 
-        static::assertEquals(
+        self::assertEquals(
             Right::fromValue($expectedOutput),
             $actual
         );
     }
 
-    public function testFlatMap3Levels()
+    public function testFlatMap3Levels(): void
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue(
@@ -140,11 +129,9 @@ final class RightTest extends TestCase
 
         $expectedOutput = 'value returned from closure';
 
-        $actual = $either->flatMap(function () use ($expectedOutput) {
-            return Right::fromValue($expectedOutput);
-        });
+        $actual = $either->flatMap(static fn (): Right => Right::fromValue($expectedOutput));
 
-        static::assertEquals(
+        self::assertEquals(
             Right::fromValue($expectedOutput),
             $actual
         );
