@@ -109,4 +109,44 @@ final class RightTest extends TestCase
 
         static::assertEquals($expectedOutput, $actual);
     }
+
+    public function testFlatMap()
+    {
+        $givenInput = 'this is the input value';
+        $either = Right::fromValue(
+            Right::fromValue($givenInput)
+        );
+
+        $expectedOutput = 'value returned from closure';
+
+        $actual = $either->flatMap(function () use ($expectedOutput) {
+            return Right::fromValue($expectedOutput);
+        });
+
+        static::assertEquals(
+            Right::fromValue($expectedOutput),
+            $actual
+        );
+    }
+
+    public function testFlatMap3Levels()
+    {
+        $givenInput = 'this is the input value';
+        $either = Right::fromValue(
+            Right::fromValue(
+                Right::fromValue($givenInput)
+            )
+        );
+
+        $expectedOutput = 'value returned from closure';
+
+        $actual = $either->flatMap(function () use ($expectedOutput) {
+            return Right::fromValue($expectedOutput);
+        });
+
+        static::assertEquals(
+            Right::fromValue($expectedOutput),
+            $actual
+        );
+    }
 }

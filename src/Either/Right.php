@@ -54,6 +54,18 @@ class Right extends Either
      */
     public function getOrElse(callable $f)
     {
-        return $this->value();
+        return $this->value;
+    }
+
+    /**
+     * @return Either<T>
+     */
+    public function flatMap(callable $f)
+    {
+        $value = $this->value;
+
+        return $value instanceof self
+            ? $value->map($f)
+            : $this;
     }
 }

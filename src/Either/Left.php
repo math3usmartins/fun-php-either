@@ -56,4 +56,12 @@ class Left extends Either
     {
         return $f($this);
     }
+
+    /**
+     * @return Either<T>
+     */
+    public function flatMap(callable $f)
+    {
+        return $this;
+    }
 }

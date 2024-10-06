@@ -21,7 +21,7 @@ final class LeftTest extends TestCase
         });
 
         static::assertEquals(
-            new Left($givenInput),
+            Left::fromValue($givenInput),
             $actual
         );
 
@@ -110,5 +110,22 @@ final class LeftTest extends TestCase
         });
 
         static::assertEquals($expectedOutput, $actual);
+    }
+
+    public function testFlatMap()
+    {
+        $givenInput = 'something went wrong';
+        $either = Left::fromValue(
+            Left::fromValue($givenInput)
+        );
+
+        $actual = $either->flatMap(function () {
+            return 'something else which should NOT be returned as value';
+        });
+
+        static::assertEquals(
+            $either,
+            $actual
+        );
     }
 }
