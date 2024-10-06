@@ -9,5 +9,5 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/test',
     ])
-    ->withPhp74Sets()
+    ->withPhpSets(php83: true)
     ->withTypeCoverageLevel(999999);

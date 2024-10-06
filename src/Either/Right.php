@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Functional\Either;
 
 use Functional\Either;
+use Override;
 
 /**
  * @template T
@@ -23,6 +24,7 @@ class Right extends Either
         return new static($value);
     }
 
+    #[Override]
     public function map(callable $f): Either
     {
         $result = $f($this);
@@ -39,6 +41,7 @@ class Right extends Either
         );
     }
 
+    #[Override]
     public function mapLeft(callable $f): Either
     {
         return $this;
@@ -49,6 +52,7 @@ class Right extends Either
      *
      * @return T|A
      */
+    #[Override]
     public function getOrElse(callable $f)
     {
         return $this->value;
@@ -57,6 +61,7 @@ class Right extends Either
     /**
      * @return Either<T>
      */
+    #[Override]
     public function flatMap(callable $f): Either
     {
         $value = $this->value;
