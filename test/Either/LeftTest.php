@@ -4,24 +4,27 @@ namespace Functional\Either;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class LeftTest extends TestCase
 {
-    public function test_map()
+    public function testMap()
     {
         $givenInput = 'something went wrong';
         $either = Left::fromValue($givenInput);
 
-        self::assertEquals($givenInput, $either->value());
+        static::assertEquals($givenInput, $either->value());
 
         $actual = $either->map(function () {
             return 'something else which should NOT be returned as value';
         });
 
-        self::assertEquals(
+        static::assertEquals(
             new Left($givenInput),
             $actual
         );
 
-        self::assertEquals($givenInput, $actual->value());
+        static::assertEquals($givenInput, $actual->value());
     }
 }

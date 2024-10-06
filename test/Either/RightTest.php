@@ -4,14 +4,17 @@ namespace Functional\Either;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 final class RightTest extends TestCase
 {
-    public function test_map()
+    public function testMap()
     {
         $givenInput = 'this is the input value';
         $either = Right::fromValue($givenInput);
 
-        self::assertEquals($givenInput, $either->value());
+        static::assertEquals($givenInput, $either->value());
 
         $expectedOutput = 'value returned from closure';
 
@@ -19,6 +22,6 @@ final class RightTest extends TestCase
             return $expectedOutput;
         });
 
-        self::assertEquals($expectedOutput, $actual);
+        static::assertEquals($expectedOutput, $actual);
     }
 }
