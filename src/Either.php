@@ -37,4 +37,11 @@ abstract class Either
      * @return Either
      */
     abstract public function mapLeft(callable $f);
+
+    /**
+     * @template A
+     *
+     * @return T|A
+     */
+    abstract public function getOrElse(callable $f);
 }

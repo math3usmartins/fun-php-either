@@ -46,4 +46,14 @@ class Right extends Either
     {
         return $this;
     }
+
+    /**
+     * @template A
+     *
+     * @return T|A
+     */
+    public function getOrElse(callable $f)
+    {
+        return $this->value();
+    }
 }

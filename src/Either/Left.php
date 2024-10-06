@@ -46,4 +46,14 @@ class Left extends Either
             )
         );
     }
+
+    /**
+     * @template A
+     *
+     * @return T|A
+     */
+    public function getOrElse(callable $f)
+    {
+        return $f($this);
+    }
 }
